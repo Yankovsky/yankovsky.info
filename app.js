@@ -1,9 +1,18 @@
-var express = require('express');
-var port = process.env.PORT || 3000;
-var app = express.createServer();
+var http = require('http'),
+    fs = require('fs')
+var port = process.env.PORT || 3000
+http.createServer(function(req, res) {
+    var url = './' + (req.url == '/' ? 'index.html' : req.url)
+    console.log(url)
 
-app.get('/', function(request, response) {
-    response.sendfile(__dirname + '/index.html');
-}).configure(function() {
-        app.use('/images', express.static(__dirname + '/images'));
-    }).listen(port);
+    fs.readFile(url, function(err, html) {
+        if (err) {
+            res.writeHead(404)
+            res.write("Oh shi! Page not found")
+        } else {
+            res.writeHead(200, {'Content-Type': 'text/html', 'Content-Length': html.length})
+            res.write(html)
+        }
+        res.end()
+    })
+}).listen(port)
