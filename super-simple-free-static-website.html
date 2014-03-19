@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>super simple free static website</title>
+</head>
+<body>
+<div>i don't like web page constructors, cms, blogs and php (!).</div>
+<i>Once I swear to fellow developer to never write a single php line of code. I'm still do well with this task.</i>
+<div>And then i realize, that I really do not need backend and db for such simple website. I just need to serve static html.</div>
+<div>So, what i do is i create a lot of html files like this one and started to think about hosting my super-duper app</div>
+<div>I just can't spend money for soooo simple website, so I created heroku app and started googling for "static website heroku"</div>
+<div>in 30 minutes i finished with</div>
+<div>Procfile:
+    <i>web: node app.js</i>
+</div>
+<div>package.json:
+    <i>
+        ...
+        "scripts": {
+            "start": "node ./app",
+        },
+       ...
+    </i>
+</div>
+<div>app.js:
+<i>
+    var http = require('http'),
+            fs = require('fs')
+    var port = process.env.PORT || 3000
+    http.createServer(function(req, res) {
+        var url = './' + (req.url == '/' ? 'index.html' : req.url)
+        fs.readFile(url, function(err, html) {
+            if (err) {
+                res.writeHead(404)
+                res.write("Oh shi! Page not found")
+            } else {
+                res.writeHead(200, {'Content-Type': 'text/html', 'Content-Length': html.length})
+                res.write(html)
+            }
+            res.end()
+        })
+    }).listen(port)
+</i>
+</div>
+<div>push this code to heroku and ...BOOM... it works!</div>
+<div>that's it ^^</div>
+</body>
+</html>
