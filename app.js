@@ -3,7 +3,7 @@ var http = require('http'),
     port = process.env.PORT || 3000
 
 var textCss = 'text/css',
-    textHtml = 'text.html',
+    textHtml = 'text/html',
     templates = {'header.html': null, 'footer.html': null},
     titlePlaceholder = 'REPLACE-ME-WITH-TITLE-PLEASE'
 
