@@ -1,16 +1,55 @@
 var http = require('http'),
-    fs = require('fs')
-var port = process.env.PORT || 3000
-http.createServer(function(req, res) {
-    var url = './' + (req.url == '/' ? 'index.html' : req.url)
-    fs.readFile(url, function(err, html) {
-        if (err) {
-            res.writeHead(404)
-            res.write("Oh shi! Page not found")
-        } else {
-            res.writeHead(200, {'Content-Type': 'text/html', 'Content-Length': html.length})
-            res.write(html)
-        }
-        res.end()
+    fs = require('fs'),
+    port = process.env.PORT || 3000
+
+var textCss = 'text/css',
+    textHtml = 'text.html',
+    templates = {'header.html': null, 'footer.html': null},
+    titlePlaceholder = 'REPLACE-ME-WITH-TITLE-PLEASE'
+
+function allFilesRead() {
+    var flag = true
+    Object.keys(templates).forEach(function(fileName) {
+        flag = flag && templates[fileName]
     })
-}).listen(port)
+    return flag
+}
+
+Object.keys(templates).forEach(function(fileName) {
+    fs.readFile(fileName, 'utf8', function(err, data) {
+        if (err)
+            throw err
+        templates[fileName] = data
+        if (allFilesRead()) {
+            startServer()
+        }
+    })
+})
+
+function prepareHeader(reqUrl) {
+    var title = reqUrl === '/' ? 'index' : reqUrl.substr(1).replace(/(.*)\.html/, '$1').replace(/\-/g, ' ')
+    return templates['header.html'].replace(titlePlaceholder, title)
+}
+
+function startServer() {
+    http.createServer(function(req, res) {
+        var reqUrl = req.url;
+        var url = './' + (reqUrl === '/' ? 'index.html' : reqUrl)
+        fs.readFile(url, function(err, data) {
+            if (err) {
+                res.writeHead(404)
+                res.write("Oh shi! Page not found")
+            } else {
+                var contentType = /css$/.test(reqUrl) ? textCss : textHtml
+                if (contentType === textHtml) {
+                    data = prepareHeader(reqUrl)
+                        + data
+                        + templates['footer.html']
+                }
+                res.writeHead(200, {'Content-Type': contentType, 'Content-Length': data.length })
+                res.write(data)
+            }
+            res.end()
+        })
+    }).listen(port)
+}
