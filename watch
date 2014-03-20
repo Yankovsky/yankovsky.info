@@ -1,0 +1,1 @@
+supervisor --extensions 'node,js,html,css' app.js
