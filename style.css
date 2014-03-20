@@ -12,11 +12,16 @@ body {
 }
 
 .code .comment {
+    font-style: italic;
     color: grey;
 }
 
 .code .comment .tag {
     text-decoration: underline;
+}
+
+.code .keyword {
+    color: blue;
 }
 
 .logo {
@@ -33,5 +38,12 @@ body {
 }
 
 .challenge .done {
-    background: lightgreen;
+    background: #d1ffd1;
+}
+
+.challenge .done .link {
+}
+
+.challenge .done .link:before {
+    content: 'Done at ';
 }
