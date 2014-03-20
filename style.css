@@ -1,6 +1,22 @@
+* {
+    font-family: 'Courier New', Courier, monospace !important;
+}
+
 body {
-    width: 600px;
+    width: 800px;
     margin: 0 auto;
+}
+
+.code * {
+    margin: 0;
+}
+
+.code .comment {
+    color: grey;
+}
+
+.code .comment .tag {
+    text-decoration: underline;
 }
 
 .logo {
