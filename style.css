@@ -24,6 +24,10 @@ body {
     color: blue;
 }
 
+.code .string {
+    color: lightgreen;
+}
+
 .logo {
     display: block;
     width: 0;
@@ -41,9 +45,6 @@ body {
     background: #d1ffd1;
 }
 
-.challenge .done .link {
-}
-
-.challenge .done .link:before {
-    content: 'Done at ';
+.challenge .done:before {
+    content: 'Done! ';
 }
