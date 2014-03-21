@@ -1,0 +1,4 @@
+#!/usr/bin/env ruby
+require 'net/http'
+puts "request home page to awake dyno"
+Net::HTTP.get(URI('http://www.yankovsky.info/'))

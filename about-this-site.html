@@ -1,10 +1,35 @@
-<div>Finally I decided to create personal website: to be more social and to fight procrastination. At first I thought about some blog engine or cms.</div>
-<div>But I hate all these shitty themes, deploying, trying to understand why I have whole bunch of useless files.</div>
-<div>And if you want something special, you should dig in php code. Oh, man...</div>
-<div>These aren't things that I want to learn, knowledge which I will be proud of.</div>
-<div>Then I suddenly realized that I don't need any kind of backend and db. I just need to serve static webpages.</div>
-<div>And I know one free, developer-friendly, convenient service, that can easily handle my current and future requests.</div>
-<div>It is Heroku! Actually it requires some server running, but it was quite a fun to write simple one on nodejs.</div>
-<div>Here is a <a href="https://github.com/Yankovsky/static-heroku-nodejs">detailed instruction how to publish static website on Heroku</a>.</div>
-<div>Time to reinvent bicycle! I've already added partials by separating header and footer html blocks and my genius server can distinguish css and html!</div>
-<div>Isn't it awesome?!</div>
+<p>Finally I decided to create personal website: to be more social and to fight procrastination.</p>
+<p>
+    At first I thought about some blog engine or cms.
+    But I hate all these shitty themes, deploying, trying to understand why I have whole bunch of useless files.
+    And if you want something special, you should dig in php code. Oh, man...
+    These aren't things that I want to learn, knowledge which I will be proud of.
+</p>
+<p>
+    Then I suddenly realized that I don't need any kind of backend and db. I just need to serve static webpages.
+    And I know one free, developer-friendly, convenient service, that can easily handle my current and future requests.
+    It is Heroku! Actually it requires some server running, but it was quite a fun to write simple one on nodejs.
+    Here is a <a href="https://github.com/Yankovsky/static-heroku-nodejs">detailed instruction how to publish static website on Heroku</a>.
+</p>
+<p>
+    Time to reinvent bicycle! I've already added partials by separating header and footer html blocks and my genius server can distinguish css and html!
+    Isn't it awesome?!
+</p>
+
+<p>
+    <b>UPDATE</b>: Heroku dyno go idle if no one visit your page for hour. So you need to ping it from time to time.
+    There are tons of options available, but I used <a href="http://beouk.blogspot.ru/2012/02/keeping-heroku-awake.html">Heroku scheduler approach</a>
+    and <a href="https://devcenter.heroku.com/articles/scheduler#defining-tasks">documentation on defining scheduler task</a>.
+    I ended up with single file bin/ping_website:
+</p>
+<div class="code">
+<pre>
+#!/usr/bin/env ruby
+require 'net/http'
+puts "request home page to awake dyno"
+Net::HTTP.get(URI('http://www.yankovsky.info/'))
+</pre>
+</div>
+<p>
+    After pushing it to Heroku you need to configure scheduler addon.
+</p>

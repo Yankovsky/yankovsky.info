@@ -2,7 +2,7 @@
 <script type="text/javascript">
     var codeSections = document.getElementsByClassName('code')
     for (var i = 0; i < codeSections.length; i++)
-        codeSections[i].innerHTML = codeSections[i].innerHTML .replace(/(var|public|singleton|throw|new|function)/g, '<span class="keyword">$1</span>')
+        codeSections[i].innerHTML = codeSections[i].innerHTML .replace(/(var|public|singleton|throw|new|function|require)/g, '<span class="keyword">$1</span>')
 </script>
 </body>
 </html>

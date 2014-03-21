@@ -35,6 +35,7 @@ body {
     border-bottom: 60px solid lightgrey;
     border-left: 70px solid transparent;
     border-right: 50px solid transparent;
+    margin: 20px 0;
 }
 
 .logo:hover {
