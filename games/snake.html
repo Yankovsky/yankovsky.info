@@ -1,0 +1,256 @@
+<h1>Vegan snake</h1>
+<p>
+    We all know snake game. For ones who don't, it's about that very hungry serpent eating apples.
+    Snake that do not eat meat. Snake that dies on touching itself. Pretty miserable fate to be creature like this.
+    Hard to find friends. I think. Unless they have something like "untouchable vegan" cult in snakes world.
+</p>
+<p>
+    About snake and apples, I guess that the first snake-game was actually called "worm".
+    And if you're worm it's OK to eat apples. It's very appreciated indeed.
+    But who want to be a pathetic worm instead of the mighty snake!
+</p>
+<p>
+    I'm pretty sure that there are a lot of snake games out there.
+    But I feel like it is one of all-programmers-should-do tasks to create another one UNIQUE UNREPEATABLE snake game.
+    So be it.
+</p>
+<p>Features list:</p>
+<ul>
+    <li>Snake should grow after eating apple</li>
+    <li>Snake should die when it hits itself</li>
+    <li>Snake should be able to pass through walls</li>
+    <li>Snake can only move in horizontal and vertical directions</li>
+    <li>Game should support only keyboard arrow keys as controls</li>
+    <li>Canvas should be used as drawing engine</li>
+</ul>
+<p>Optional features:</p>
+<ul>
+    <li>After snake hit itself (die) game should block user input and cycles until all of snake segments preventing it from moving forward disappear from game field</li>
+    <li>Scores</li>
+</ul>
+<p>No's:</p>
+<ul>
+    <li>No graphics</li>
+    <li>No multiplayer mode</li>
+    <li>No bots</li>
+    <li>No walls</li>
+    <li>No different levels</li>
+    <li>No mobile devices support</li>
+    <li>No diagonal movement</li>
+</ul>
+<hr/>
+<p>2 days later: <b>Done!</b></p>
+<p>What I've learned:</p>
+<ul>
+    <li><a href='http://gameprogrammingpatterns.com/game-loop.html'>Game</a> <a href='http://www.koonsolo.com/news/dewitters-gameloop/'>loop</a>, and different approaches to implement it</li>
+    <li>Different ways to handle user input</li>
+    <li>Basic canvas api</li>
+    <li>Html attribute 'width' and css property 'width' <a href='http://stackoverflow.com/questions/2588181/canvas-is-stretched-when-using-css-but-normal-with-width-height-properties'>behave differently</a> for canvas element</li>
+</ul>
+        
+<style>
+    .game-container {
+        margin-bottom: 20px;
+        position: relative;
+        height: 440px;
+        background: black;
+    }
+
+    .game-container > * {
+        position: absolute;
+    }
+
+    .game-menu {
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        margin: auto;
+        width: 300px;
+        height: 150px;
+        text-align: center;
+    }
+
+    .game-menu h2 {
+        color: white;
+    }
+
+    .game-menu input {
+        font-size: 30px;
+    }
+
+    .scores {
+        bottom:   0;
+        text-align: center;
+        width: 100%;
+        background: #333333;
+        height: 40px;
+        line-height: 40px;
+        font-size: 20px;
+        color: white;
+    }
+</style>
+<div class='game-container'>
+    <canvas id='snake-canvas' width="800" height="400">Your browser doesn't support canvas</canvas>
+    <div id='scores' class='scores'></div>
+    <div class='game-menu'>
+        <h2>VEGAN SNAKE</h2>
+        <input type='button' value='Start' onclick='hideMenu(); startGame()'/>
+    </div>
+</div>
+<script>
+    var canvas = document.getElementById('snake-canvas'),
+        ctx = canvas.getContext('2d'),
+        scoresElement = document.getElementById('scores')
+
+    function hideMenu() {
+        document.getElementsByClassName("game-menu")[0].style.display = 'none'
+    }
+
+    var pressedKeys = []
+    document.onkeydown = function(e) {
+        if (isArrow(e.which) && !e.altKey) {
+            pressedKeys.push(e.which)
+            return false
+        }
+    }
+
+    var KEYS = {
+        LEFT: 37,
+        UP: 38,
+        RIGHT: 39,
+        DOWN: 40
+    }
+
+    function isArrow(key) {
+        return key >= KEYS.LEFT && key <= KEYS.DOWN
+    }
+
+    function rotate90degrees(newDirection) {
+        return (currentDirection + newDirection) % 2 != 0
+    }
+
+    function draw() {
+        var canvasWidth = canvas.width,
+            canvasHeight = canvas.height,
+            cellWidth = canvasWidth / fieldWidth,
+            cellHeight = canvasHeight / fieldHeight
+        ctx.fillStyle = 'black'
+        ctx.fillRect(0, 0, canvasWidth, canvasHeight)
+
+        ctx.fillStyle = snakeEatItself ? 'purple' : 'yellow'
+        ctx.fillRect(snakeSegments[0][0] * cellWidth, snakeSegments[0][1] * cellHeight, cellWidth, cellHeight)
+
+        ctx.fillStyle = snakeEatItself ? 'orange' : 'green'
+        for (var i = 1; i < snakeSegments.length; i++) {
+            var reductionFactor = 1 - i / snakeSegments.length * 0.5
+            var segmentWidth = cellWidth * reductionFactor,
+                segmentHeight = cellHeight * reductionFactor
+            ctx.globalAlpha = reductionFactor
+            var segment = snakeSegments[i]
+            ctx.fillRect(segment[0] * cellWidth + (cellWidth - segmentWidth) / 2,
+                    segment[1] * cellHeight + (cellHeight - segmentHeight) / 2,
+                    segmentWidth, segmentHeight)
+        }
+        ctx.globalAlpha = 1
+
+        ctx.fillStyle = 'red'
+        ctx.fillRect(applePosition[0] * cellWidth, applePosition[1] * cellHeight, cellWidth, cellHeight)
+
+        scoresElement.innerHTML = 'scores: ' + scores
+    }
+
+    function isSnakeSegment(cell) {
+        for (var i = 0; i < snakeSegments.length; i++) {
+            var segment = snakeSegments[i]
+            if (segment[0] == cell[0] && segment[1] == cell[1])
+                return true
+        }
+        return false
+    }
+
+    function getRandomFreeCell() {
+        var cell
+        do
+            cell = [Math.floor(Math.random() * fieldWidth), Math.floor(Math.random() * fieldHeight)]
+        while (isSnakeSegment(cell))
+        return cell
+    }
+
+    var fieldWidth = 20,
+        fieldHeight = 10,
+        snakeSegments,
+        currentDirection,
+        applePosition,
+        appleEaten,
+        snakeEatItself,
+        scores
+
+    function startGame() {
+        snakeSegments = [[Math.floor(fieldWidth / 4), Math.floor(fieldHeight / 2)]],
+        currentDirection = KEYS.RIGHT,
+        applePosition = getRandomFreeCell(),
+        appleEaten = false,
+        snakeEatItself = false,
+        scores = 0
+        gameCycle()
+    }
+
+    function newHeadPosition(head) {
+        var result = [head[0], head[1]]
+        switch (currentDirection) {
+            case KEYS.LEFT:
+                result[0]--
+                break
+            case KEYS.UP:
+                result[1]--
+                break
+            case KEYS.RIGHT:
+                result[0]++
+                break
+            case KEYS.DOWN:
+                result[1]++
+                break
+        }
+        result[0] = (result[0] + fieldWidth) % fieldWidth
+        result[1] = (result[1] + fieldHeight) % fieldHeight
+        return result
+    }
+
+    function gameCycle() {
+        if (!snakeEatItself) {
+            for (var i = pressedKeys.length - 1; i >= 0; i--) {
+                var key = pressedKeys[i]
+                if (rotate90degrees(key)) {
+                    currentDirection = key
+                    break
+                }
+            }
+        }
+        var head = snakeSegments[0]
+        if (appleEaten) {
+            appleEaten = false
+        } else {
+            snakeSegments.pop()
+        }
+        var newHead = newHeadPosition(head)
+        if (isSnakeSegment(newHead)) {
+            snakeEatItself = true
+        } else if (snakeEatItself) {
+            snakeEatItself = false
+        }
+        if (!snakeEatItself) {
+            snakeSegments.unshift(newHead)
+            if (newHead[0] == applePosition[0] && newHead[1] == applePosition[1]) {
+                appleEaten = true
+                applePosition = getRandomFreeCell()
+            }
+        }
+        scores = Math.max(scores, snakeSegments.length - 1)
+        pressedKeys = []
+
+        draw()
+
+        setTimeout(gameCycle, 60)
+    }
+</script>

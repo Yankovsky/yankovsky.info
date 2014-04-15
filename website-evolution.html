@@ -1,0 +1,32 @@
+<h1>Website Evolution</h1>
+<h2>1 Stage - Static Website</h2>
+<p>
+    I decided to create personal website.
+    At first I thought about some blog engine or cms.
+    But I hate all these shitty themes, deploying, trying to understand why I have whole bunch of useless files.
+    And if you want something special, you should dig in php code. Oh, man...
+    These aren't things that I want to learn, is isn't knowledge that I will be proud of.
+</p>
+<p>
+    Then I suddenly realized that I don't need any kind of backend and db. I just need to serve static webpages.
+    And I know one free, developer-friendly, convenient service, that can easily handle my current and future requests.
+    It is Heroku! Actually it requires some server running, but it was quite a fun to write simple one on nodejs.
+    Here is a <a href="https://github.com/Yankovsky/static-heroku-nodejs">detailed instruction how to publish static website on Heroku</a>.
+</p>
+<p>
+    One important note: Heroku dyno go idle if no one visit your page for hour. So you need to ping it from time to time.
+    There are tons of options available, but I used <a href="http://beouk.blogspot.ru/2012/02/keeping-heroku-awake.html">Heroku scheduler approach</a>
+    and <a href="https://devcenter.heroku.com/articles/scheduler#defining-tasks">documentation on defining scheduler task</a>.
+    I ended up with single file bin/ping_website:
+</p>
+<div class="code">
+<pre>
+    #!/usr/bin/env ruby
+    require 'net/http'
+    puts "request home page to awake dyno"
+    Net::HTTP.get(URI('http://www.yankovsky.info/'))
+</pre>
+</div>
+<p>
+    After pushing it to Heroku you need to configure scheduler addon.
+</p>

@@ -27,7 +27,7 @@ Object.keys(templates).forEach(function(fileName) {
 })
 
 function prepareHeader(reqUrl) {
-    var title = reqUrl === '/' ? 'index' : reqUrl.substr(1).replace(/(.*)\.html/, '$1').replace(/\-/g, ' ')
+    var title = reqUrl === '/' ? 'index' : reqUrl.substr(1).replace(/(.*\/)?(.*)\.html/, '$2').replace(/\-/g, ' ')
     return templates['header.html'].replace(titlePlaceholder, title)
 }
 
