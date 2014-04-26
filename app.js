@@ -5,7 +5,7 @@ var http = require('http'),
 var textCss = 'text/css',
     textHtml = 'text/html',
     templates = {'header.html': null, 'footer.html': null},
-    titlePlaceholder = 'REPLACE-ME-WITH-TITLE-PLEASE'
+    titlePlaceholder = '{{{REPLACE-ME-WITH-TITLE-PLEASE}}}'
 
 function allFilesRead() {
     var flag = true

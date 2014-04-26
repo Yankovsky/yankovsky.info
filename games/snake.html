@@ -47,72 +47,23 @@
     <li>Basic canvas api</li>
     <li>Html attribute 'width' and css property 'width' <a href='http://stackoverflow.com/questions/2588181/canvas-is-stretched-when-using-css-but-normal-with-width-height-properties'>behave differently</a> for canvas element</li>
 </ul>
-        
-<style>
-    .game-container {
-        margin-bottom: 20px;
-        position: relative;
-        height: 440px;
-        background: black;
-    }
 
-    .game-container > * {
-        position: absolute;
-    }
-
-    .game-menu {
-        left: 0;
-        right: 0;
-        top: 0;
-        bottom: 0;
-        margin: auto;
-        width: 300px;
-        height: 150px;
-        text-align: center;
-    }
-
-    .game-menu h2 {
-        color: white;
-    }
-
-    .game-menu input {
-        font-size: 30px;
-    }
-
-    .scores {
-        bottom:   0;
-        text-align: center;
-        width: 100%;
-        background: #333333;
-        height: 40px;
-        line-height: 40px;
-        font-size: 20px;
-        color: white;
-    }
-</style>
+<link rel="stylesheet" href="../game.css"/>
 <div class='game-container'>
-    <canvas id='snake-canvas' width="800" height="400">Your browser doesn't support canvas</canvas>
-    <div id='scores' class='scores'></div>
+    <canvas id="game-canvas" width="800" height="400">Your browser doesn't support canvas</canvas>
+    <div id='scores' class='status'></div>
     <div class='game-menu'>
         <h2>VEGAN SNAKE</h2>
         <input type='button' value='Start' onclick='hideMenu(); startGame()'/>
     </div>
 </div>
 <script>
-    var canvas = document.getElementById('snake-canvas'),
+    var canvas = document.getElementById('game-canvas'),
         ctx = canvas.getContext('2d'),
         scoresElement = document.getElementById('scores')
 
     function hideMenu() {
         document.getElementsByClassName("game-menu")[0].style.display = 'none'
-    }
-
-    var pressedKeys = []
-    document.onkeydown = function(e) {
-        if (isArrow(e.which) && !e.altKey) {
-            pressedKeys.push(e.which)
-            return false
-        }
     }
 
     var KEYS = {
@@ -126,38 +77,40 @@
         return key >= KEYS.LEFT && key <= KEYS.DOWN
     }
 
-    function rotate90degrees(newDirection) {
-        return (currentDirection + newDirection) % 2 != 0
+    var delay = 60,
+        fieldWidth = 20,
+        fieldHeight = 10,
+        snakeSegments,
+        currentDirection,
+        applePosition,
+        appleEaten,
+        snakeEatItself,
+        scores,
+        pressedKeys,
+        canvasWidth = canvas.width,
+        canvasHeight = canvas.height,
+        cellWidth = canvasWidth / fieldWidth,
+        cellHeight = canvasHeight / fieldHeight
+
+    function startGame() {
+        pressedKeys = []
+        document.onkeydown = function(e) {
+            if (isArrow(e.which) && !e.altKey) {
+                pressedKeys.push(e.which)
+                return false
+            }
+        }
+        snakeSegments = [[Math.floor(fieldWidth / 4), Math.floor(fieldHeight / 2)]]
+        currentDirection = KEYS.RIGHT
+        applePosition = getRandomFreeCell()
+        appleEaten = false
+        snakeEatItself = false
+        scores = 0
+        gameCycle()
     }
 
-    function draw() {
-        var canvasWidth = canvas.width,
-            canvasHeight = canvas.height,
-            cellWidth = canvasWidth / fieldWidth,
-            cellHeight = canvasHeight / fieldHeight
-        ctx.fillStyle = 'black'
-        ctx.fillRect(0, 0, canvasWidth, canvasHeight)
-
-        ctx.fillStyle = snakeEatItself ? 'purple' : 'yellow'
-        ctx.fillRect(snakeSegments[0][0] * cellWidth, snakeSegments[0][1] * cellHeight, cellWidth, cellHeight)
-
-        ctx.fillStyle = snakeEatItself ? 'orange' : 'green'
-        for (var i = 1; i < snakeSegments.length; i++) {
-            var reductionFactor = 1 - i / snakeSegments.length * 0.5
-            var segmentWidth = cellWidth * reductionFactor,
-                segmentHeight = cellHeight * reductionFactor
-            ctx.globalAlpha = reductionFactor
-            var segment = snakeSegments[i]
-            ctx.fillRect(segment[0] * cellWidth + (cellWidth - segmentWidth) / 2,
-                    segment[1] * cellHeight + (cellHeight - segmentHeight) / 2,
-                    segmentWidth, segmentHeight)
-        }
-        ctx.globalAlpha = 1
-
-        ctx.fillStyle = 'red'
-        ctx.fillRect(applePosition[0] * cellWidth, applePosition[1] * cellHeight, cellWidth, cellHeight)
-
-        scoresElement.innerHTML = 'scores: ' + scores
+    function rotate90degrees(newDirection) {
+        return (currentDirection + newDirection) % 2 != 0
     }
 
     function isSnakeSegment(cell) {
@@ -175,25 +128,6 @@
             cell = [Math.floor(Math.random() * fieldWidth), Math.floor(Math.random() * fieldHeight)]
         while (isSnakeSegment(cell))
         return cell
-    }
-
-    var fieldWidth = 20,
-        fieldHeight = 10,
-        snakeSegments,
-        currentDirection,
-        applePosition,
-        appleEaten,
-        snakeEatItself,
-        scores
-
-    function startGame() {
-        snakeSegments = [[Math.floor(fieldWidth / 4), Math.floor(fieldHeight / 2)]],
-        currentDirection = KEYS.RIGHT,
-        applePosition = getRandomFreeCell(),
-        appleEaten = false,
-        snakeEatItself = false,
-        scores = 0
-        gameCycle()
     }
 
     function newHeadPosition(head) {
@@ -217,7 +151,7 @@
         return result
     }
 
-    function gameCycle() {
+    function update() {
         if (!snakeEatItself) {
             for (var i = pressedKeys.length - 1; i >= 0; i--) {
                 var key = pressedKeys[i]
@@ -248,9 +182,37 @@
         }
         scores = Math.max(scores, snakeSegments.length - 1)
         pressedKeys = []
+    }
 
+    function draw() {
+        ctx.fillStyle = 'black'
+        ctx.fillRect(0, 0, canvasWidth, canvasHeight)
+
+        ctx.fillStyle = snakeEatItself ? 'purple' : 'yellow'
+        ctx.fillRect(snakeSegments[0][0] * cellWidth, snakeSegments[0][1] * cellHeight, cellWidth, cellHeight)
+
+        ctx.fillStyle = snakeEatItself ? 'orange' : 'green'
+        for (var i = 1; i < snakeSegments.length; i++) {
+            var reductionFactor = 1 - i / snakeSegments.length * 0.5
+            var segmentWidth = cellWidth * reductionFactor,
+                    segmentHeight = cellHeight * reductionFactor
+            ctx.globalAlpha = reductionFactor
+            var segment = snakeSegments[i]
+            ctx.fillRect(segment[0] * cellWidth + (cellWidth - segmentWidth) / 2,
+                    segment[1] * cellHeight + (cellHeight - segmentHeight) / 2,
+                    segmentWidth, segmentHeight)
+        }
+        ctx.globalAlpha = 1
+
+        ctx.fillStyle = 'red'
+        ctx.fillRect(applePosition[0] * cellWidth, applePosition[1] * cellHeight, cellWidth, cellHeight)
+
+        scoresElement.innerHTML = 'scores: ' + scores
+    }
+
+    function gameCycle() {
+        update()
         draw()
-
-        setTimeout(gameCycle, 60)
+        setTimeout(gameCycle, delay)
     }
 </script>

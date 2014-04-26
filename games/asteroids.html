@@ -1,0 +1,250 @@
+<h1>Asteroids</h1>
+<p>
+    Asteroids
+</p>
+<p>Features list:</p>
+<ul>
+    <li>Player can move all around game field using arrow keys</li>
+    <li>Player should take damage on collide with enemies</li>
+    <li>Enemies should randomly appear from right side of screen and have random size and speed</li>
+</ul>
+<p>Optional features:</p>
+<ul>
+    <li>Screen background should simulate player movement along game world</li>
+    <li>Game should become harder as time passes</li>
+    <li>Power-ups</li>
+    <li>Sounds</li>
+</ul>
+<p>No's:</p>
+<ul>
+    <li>No shooting</li>
+    <li>No complicated bounding boxes</li>
+    <li>No complicated graphics</li>
+    <li>No different levels</li>
+    <li>No mobile devices support</li>
+</ul>
+<hr/>
+
+<link rel="stylesheet" href="../game.css"/>
+<div class='game-container'>
+    <canvas id="game-canvas" width="800" height="400">Your browser doesn't support canvas</canvas>
+    <div class='status'>
+        <div id='scores'></div>
+        <div id='health'></div>
+    </div>
+    <div class='game-menu'>
+        <h2>Asteroids</h2>
+        <input type='button' value='Start' onclick='hideMenu(); startGame()'/>
+    </div>
+</div>
+<script>
+    var canvas = document.getElementById('game-canvas'),
+        ctx = canvas.getContext('2d'),
+        scoresElement = document.getElementById('scores'),
+        healthElement = document.getElementById('health')
+
+    function hideMenu() {
+        document.getElementsByClassName("game-menu")[0].style.display = 'none'
+    }
+
+    var KEYS = {
+        LEFT: 37,
+        UP: 38,
+        RIGHT: 39,
+        DOWN: 40
+    }
+
+    function isArrow(key) {
+        return key >= KEYS.LEFT && key <= KEYS.DOWN
+    }
+
+    var fps = 60,
+        delay = 1000 / fps,
+        scores,
+        cycle,
+        lastSpawnedEnemyCycleNumber,
+        lastSpawnedPowerUp,
+        pressedKeys,
+        player,
+        gameObjects,
+        canvasWidth = canvas.width,
+        canvasHeight = canvas.height
+
+    var GROUP = {
+        PLAYER: 1,
+        ENEMIES: 2,
+        POWER_UPS: 3
+    }
+
+    function startGame() {
+        cycle = 0
+        lastSpawnedEnemyCycleNumber = 0
+        lastSpawnedPowerUp = 0
+        pressedKeys = {}
+        document.onkeydown = function(e) {
+            if (isArrow(e.which) && !e.altKey) {
+                pressedKeys[e.which] = true
+                return false
+            }
+        }
+        document.onkeyup = function(e) {
+            if (isArrow(e.which) && !e.altKey) {
+                pressedKeys[e.which] = false
+                return false
+            }
+        }
+        scores = 0
+        gameObjects = {}
+        for (var group in GROUP) {
+            gameObjects[GROUP[group]] = []
+        }
+        player = {
+            x: canvasWidth / 10,
+            y: canvasHeight / 2,
+            w: 50,
+            h: 25,
+            speed: 5,
+            health: 10,
+            update: function() {
+                if (pressedKeys[KEYS.LEFT])
+                    this.x -= this.speed
+                if (pressedKeys[KEYS.UP])
+                    this.y -= this.speed
+                if (pressedKeys[KEYS.RIGHT])
+                    this.x += this.speed
+                if (pressedKeys[KEYS.DOWN])
+                    this.y += this.speed
+                this.x = Math.max(Math.min(this.x, canvasWidth - this.w), 0)
+                this.y = Math.max(Math.min(this.y, canvasHeight - this.h), 0)
+            },
+            draw: function() {
+                ctx.fillStyle = 'yellow'
+                ctx.fillRect(this.x, this.y, this.w, this.h)
+            }
+        }
+        gameObjects[GROUP.PLAYER].push(player)
+        gameCycle()
+    }
+
+    function collision(a, b) {
+        return a.x <= b.x + b.w && a.x + a.w >= b.x &&
+                a.y <= b.y + b.h && a.y + a.h >= b.y
+    }
+
+    function updateObjectPositions() {
+        for (var group in gameObjects) {
+            for (var i = 0; i < gameObjects[group].length; i++) {
+                gameObjects[group][i].update()
+            }
+        }
+    }
+
+    function random(min, max) {
+        return Math.floor(Math.random() * (max + 1 - min)) + min
+    }
+
+    function spawnNewObjects() {
+        if (cycle - lastSpawnedEnemyCycleNumber > 10 && Math.random() < 0.1) {
+            lastSpawnedEnemyCycleNumber = cycle
+            var size = random(30, 50),
+                w = random(0.9 * size, 1.1 * size),
+                h = random(0.9 * size, 1.1 * size),
+                x = canvasWidth + w,
+                y = random(0, canvasHeight - h),
+                health = 1,
+                speed = random(2, 5),
+                color = '#' + Math.floor(random(100, 255)).toString(16) + '0000'
+            gameObjects[GROUP.ENEMIES].push({
+                x: x,
+                y: y,
+                w: w,
+                h: h,
+                health: health,
+                update: function() {
+                    this.x -= speed
+                },
+                draw: function() {
+                    ctx.fillStyle = color
+                    ctx.fillRect(this.x, this.y, this.w, this.h)
+                }
+            })
+        }
+        if (cycle - lastSpawnedPowerUp > 1000 && Math.random() < 0.005) {
+            lastSpawnedPowerUp = cycle
+            var w = 25,
+                h = 25,
+                x = canvasWidth + 25,
+                y = random(0, canvasHeight - h),
+                speed = random(2, 5)
+            gameObjects[GROUP.POWER_UPS].push({
+                x: x,
+                y: y,
+                w: w,
+                h: h,
+                update: function() {
+                    this.x -= speed
+                },
+                draw: function() {
+                    ctx.fillStyle = 'blue'
+                    ctx.fillRect(this.x, this.y, this.w, this.h)
+                }
+            })
+        }
+    }
+
+    function checkCollisions() {
+        for (var i = gameObjects[GROUP.POWER_UPS].length - 1; i >= 0; i--) {
+            var powerUp = gameObjects[GROUP.POWER_UPS][i];
+            if (collision(powerUp, player)) {
+                gameObjects[GROUP.ENEMIES] = []
+                gameObjects[GROUP.POWER_UPS].splice(i, 1)
+            }
+        }
+        for (var i = gameObjects[GROUP.ENEMIES].length - 1; i >= 0; i--) {
+            var enemy = gameObjects[GROUP.ENEMIES][i];
+            if (collision(enemy, player)) {
+                player.health -= enemy.health
+                gameObjects[GROUP.ENEMIES].splice(i, 1)
+            }
+        }
+    }
+
+    function update() {
+        updateObjectPositions()
+        spawnNewObjects()
+        checkCollisions()
+
+        if (player.health <= 0) {
+            // end game
+        } else {
+            scores++
+        }
+    }
+
+    function draw() {
+        var canvasWidth = canvas.width,
+            canvasHeight = canvas.height
+        ctx.fillStyle = 'black'
+        ctx.fillRect(0, 0, canvasWidth, canvasHeight)
+
+        for (var group in gameObjects) {
+            for (var i = 0; i < gameObjects[group].length; i++) {
+                gameObjects[group][i].draw()
+            }
+        }
+
+        scoresElement.innerHTML = 'scores: ' + scores
+        healthElement.innerHTML = 'health: ' + player.health
+    }
+
+    function gameCycle() {
+        cycle++
+        update()
+        draw()
+        setTimeout(gameCycle, delay)
+    }
+
+    var evObj = document.createEvent('Events');
+    evObj.initEvent('click', true, false);
+    document.getElementsByTagName('input')[0].dispatchEvent(evObj);
+</script>
