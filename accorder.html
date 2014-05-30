@@ -1,0 +1,43 @@
+<h1>Accorder - transpose chords to different key</h1>
+<script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+
+<textarea name="song" id="song" cols="100" rows="40" placeholder="copy chords here">
+C             Cmaj7       F
+Imagine there's no heaven
+</textarea>
+<button id="down">DOWN</button>
+<button id="up">UP</button>
+
+<!--<label>-->
+    <!--Guitar-->
+    <!--<input type="radio" name="instrument" value="guitar" checked/>-->
+<!--</label>-->
+<!--<label>-->
+    <!--Ukulele-->
+    <!--<input type="radio" name="instrument" value="ukulele"/>-->
+<!--</label>-->
+
+<script>
+    var chords = ['A', 'B', 'H', 'C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#'],
+        chordsRegexp = new RegExp(chords.slice().sort(function (a, b) {
+           return b.length - a.length
+        }).join('|'), 'g'),
+        chordsLength = chords.length,
+        $song = null
+
+    function transpose(e) {
+        $song.val(function () {
+            return $song.val().replace(chordsRegexp, function(match, offset) {
+                var number = chords.indexOf(match.toUpperCase());
+                var number2 = ((chordsLength + number + e.data) % chordsLength);
+                return chords[ number2]
+            })
+        })
+    }
+
+    $(function () {
+        $song = $('#song')
+        $('#down').click(-1, transpose)
+        $('#up').click(1, transpose)
+    })
+</script>
