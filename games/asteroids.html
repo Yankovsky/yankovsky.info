@@ -192,16 +192,30 @@
         }
     }
 
+    function bang() {
+        var bangArea = {
+            x: player.x - 100,
+            y: player.y - 100,
+            w: 200,
+            h: 200
+        }
+        for (var i = gameObjects[GROUP.ENEMIES].length - 1; i >= 0; i--) {
+            var enemy = gameObjects[GROUP.ENEMIES][i]
+            if (collision(enemy, bangArea)) {
+                gameObjects[GROUP.ENEMIES].splice(i, 1)
+            }
+        }
+    }
     function checkCollisions() {
         for (var i = gameObjects[GROUP.POWER_UPS].length - 1; i >= 0; i--) {
-            var powerUp = gameObjects[GROUP.POWER_UPS][i];
+            var powerUp = gameObjects[GROUP.POWER_UPS][i]
             if (collision(powerUp, player)) {
-                gameObjects[GROUP.ENEMIES] = []
+                bang()
                 gameObjects[GROUP.POWER_UPS].splice(i, 1)
             }
         }
         for (var i = gameObjects[GROUP.ENEMIES].length - 1; i >= 0; i--) {
-            var enemy = gameObjects[GROUP.ENEMIES][i];
+            var enemy = gameObjects[GROUP.ENEMIES][i]
             if (collision(enemy, player)) {
                 player.health -= enemy.health
                 gameObjects[GROUP.ENEMIES].splice(i, 1)

@@ -44,6 +44,7 @@ function startServer() {
                 if (contentType === textHtml) {
                     data = prepareHeader(reqUrl)
                         + data
+//                        + reqUrl === '/' ?
                         + templates['footer.html']
                 }
                 res.writeHead(200, {'Content-Type': contentType, 'Content-Length': data.length })
