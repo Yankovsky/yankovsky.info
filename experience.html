@@ -1,0 +1,7 @@
+<script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+<script>
+    $.get('experience.json', function(data) {
+        $('#experience').text(JSON.stringify(data, null, 2))
+    })
+</script>
+<pre id='experience' style='white-space: pre-wrap;'></pre>

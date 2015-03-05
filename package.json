@@ -1,20 +1,23 @@
 {
-    "name": "yankovsky-info",
-    "version": "0.0.0",
-    "description": "yankovsky personal website",
-    "main": "app.js",
-    "scripts": {
-        "start": "node ./app",
-        "test": "echo \"Error: no test specified\" && exit 1"
-    },
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/Yankovsky/yankovsky.info"
-    },
-    "author": "Yankovsky",
-    "license": "ISC",
-    "bugs": {
-        "url": "https://github.com/Yankovsky/yankovsky.info/issues"
-    },
-    "homepage": "https://github.com/Yankovsky/yankovsky.info"
+  "name": "yankovsky-info",
+  "version": "0.0.0",
+  "description": "yankovsky personal website",
+  "main": "app.js",
+  "scripts": {
+    "start": "node ./app",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Yankovsky/yankovsky.info"
+  },
+  "author": "Yankovsky",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Yankovsky/yankovsky.info/issues"
+  },
+  "homepage": "https://github.com/Yankovsky/yankovsky.info",
+  "dependencies": {
+    "supervisor": "^0.6.0"
+  }
 }

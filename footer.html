@@ -4,15 +4,5 @@
     for (var i = 0; i < codeSections.length; i++)
         codeSections[i].innerHTML = codeSections[i].innerHTML .replace(/(var|public|singleton|throw|new|function|require)/g, '<span class="keyword">$1</span>')
 </script>
-<script type="text/javascript">
-    // Meet PUTIN himself - PUre Testing INfrastructure
-    function runTests() {
-        if (tests)
-            for (var test in tests) {
-                var error = tests[test]()
-                if (error) console.log('TEST FAILED: ' + test + ': ' + error)
-            }
-    }
-</script>
 </body>
 </html>

@@ -1,0 +1,83 @@
+[
+  {
+    "company": "QMSTATUS",
+    "website": "http://qmstatus.com/",
+    "from": "August 2014",
+    "to": "now",
+    "position": "Lead front end developer",
+    "description": "Big monitoring tool for big companies.",
+    "skills": [
+      "learned how to build huge Angular.js app",
+      "wrote custom build script supporting highly modular system",
+      "charting with Highcharts",
+      "Angular.js app l10n and i18n",
+      "learned to find bugs in Angular.js app much faster",
+      "unit testing with Jasmine and Karma"
+    ],
+    "comments": [
+      {
+        "author": "Mihail Budilov",
+        "role": "PM",
+        "text": "С Андреем работали и продолжаем периодически работать на SaaS-проекте qmstatus.com, где он выполнял роль ведущего фронтенд-программиста, которой не только проявил опыт и скорость решения поставленных задач, но и распределял и обучал второго фронтенд-программиста, тем самым проявил умение в управлении другими специалистами. Стоит отметить высокое качество выполненной работы, умение работать в команде и что не мало важно, всегда находится на связи."
+      }
+    ]
+  },
+  {
+    "company": "CSSSR",
+    "website": "http://www.csssr.ru/",
+    "from": "June 2014",
+    "to": "November 2014",
+    "position": "Angular.js developer and front end consultant",
+    "description": "Share knowledge about about SPA and interview a lot of people.",
+    "skills": [
+      "learned weak sides of Angular.js",
+      "learned how to optimize Angular.js",
+      "learned how to interview Angular.js developers"
+    ],
+    "comments": [
+      {
+        "author": "Elizaveta Yanovskaya",
+        "role": "PM",
+        "text": ""
+      }
+    ]
+  },
+  {
+    "company": "Bespoke Services",
+    "website": "http://www.bspk.com",
+    "from": "June 2013",
+    "to": "July 2014",
+    "position": "Front end developer",
+    "description": "Imagine www.booking.com mixed with www.hipmunk.com",
+    "skills": [
+      "finally switched to frontend development",
+      "turned jquery spaghetti to Angular.js structured code",
+      "did some Perl programming",
+      "Coffee, Stylus, Handlebars and others"
+    ]
+  },
+  {
+    "company": "WildBerries.ru",
+    "website": "http://www.wildberries.ru/",
+    "from": "November 2012",
+    "to": "May 2013",
+    "position": "ASP.NET MVC developer",
+    "description": "Biggest online clothes shop in Russia",
+    "skills": [
+      "dived deep in NoSQL databases trying to move some functionality from MSSQL",
+      "improved code quality",
+      "wrote unit tests for new modules and guide for other developers"
+    ]
+  },
+  {
+    "company": "Actimind",
+    "website": "http://www.actimind.com/",
+    "from": "July 2011",
+    "to": "July 2012",
+    "position": "Java developer",
+    "description": "Time tracking software",
+    "skills": [
+      "Java, SQL, unit testing, web stack"
+    ]
+  }
+]

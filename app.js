@@ -4,6 +4,7 @@ var http = require('http'),
 
 var textCss = 'text/css',
     textHtml = 'text/html',
+    applicationJson = 'application/json',
     templates = {'header.html': null, 'footer.html': null},
     titlePlaceholder = '{{{REPLACE-ME-WITH-TITLE-PLEASE}}}'
 
@@ -40,7 +41,7 @@ function startServer() {
                 res.writeHead(404)
                 res.write("Oh shi! Page not found")
             } else {
-                var contentType = /css$/.test(reqUrl) ? textCss : textHtml
+                var contentType = /css$/.test(reqUrl) ? textCss : ( /json$/.test(reqUrl) ? applicationJson : textHtml)
                 if (contentType === textHtml) {
                     data = prepareHeader(reqUrl)
                         + data
