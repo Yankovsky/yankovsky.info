@@ -3,7 +3,7 @@
     "company": "QMSTATUS",
     "website": "http://qmstatus.com/",
     "from": "August 2014",
-    "to": "now",
+    "to": "current time",
     "position": "Lead front end developer",
     "description": "big monitoring tool for big companies.",
     "skills": [
@@ -11,7 +11,7 @@
       "wrote custom build script supporting highly modular system",
       "charting with Highcharts",
       "Angular.js app l10n and i18n",
-      "learned to find bugs in Angular.js app much faster",
+      "learned how to find bugs in Angular.js app much faster",
       "unit testing with Jasmine and Karma"
     ]
   },
@@ -23,7 +23,7 @@
     "position": "Angular.js developer and front end consultant",
     "description": "lead frontend outsourcing company in Russia",
     "skills": [
-      "shared knowledge about about SPA",
+      "shared knowledge about SPA",
       "learned weak sides of Angular.js",
       "learned how to optimize Angular.js",
       "interviewed a lot of people",
