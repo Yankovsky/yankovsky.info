@@ -1,7 +1,81 @@
 <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
 <script>
-    $.get('experience.json', function(data) {
-        $('#experience').text(JSON.stringify(data, null, 2))
+    // Simple JavaScript Templating
+    // John Resig - http://ejohn.org/ - MIT Licensed
+    (function(){
+        var cache = {};
+
+        this.tmpl = function tmpl(str, data){
+            // Figure out if we're getting a template, or if we need to
+            // load the template - and be sure to cache the result.
+            var fn = !/\W/.test(str) ?
+                    cache[str] = cache[str] ||
+                    tmpl(document.getElementById(str).innerHTML) :
+
+                // Generate a reusable function that will serve as a template
+                // generator (and which will be cached).
+                    new Function("obj",
+                            "var p=[],print=function(){p.push.apply(p,arguments);};" +
+
+                                // Introduce the data as local variables using with(){}
+                            "with(obj){p.push('" +
+
+                                // Convert the template into pure JavaScript
+                            str
+                                    .replace(/[\r\t\n]/g, " ")
+                                    .split("<%").join("\t")
+                                    .replace(/((^|%>)[^\t]*)'/g, "$1\r")
+                                    .replace(/\t=(.*?)%>/g, "',$1,'")
+                                    .split("\t").join("');")
+                                    .split("%>").join("p.push('")
+                                    .split("\r").join("\\'")
+                            + "');}return p.join('');");
+
+            // Provide some basic currying to the user
+            return data ? fn( data ) : fn;
+        };
+    })();
+</script>
+<script type="text/html" id="experience_template">
+    <ul>
+        <% for (var i = 0; i < experience.length; i++) { %>
+        <% var item = experience[i]; %>
+        <li>
+            <b><a href="<%=item.website%>"><%=item.company%></a></b> — <span><%=item.description%></span>
+            <p>Position: <%=item.position%></p>
+            <p>Work from <%=item.from%> to <%=item.to%></p>
+            <p>Achievements:</p>
+            <ul>
+                <% for (var j = 0; j < item.skills.length; j++) { %>
+                <% var skill = item.skills[j]; %>
+                <li><%=skill%></li>
+                <% } %>
+            </ul>
+        </li>
+        <br/>
+        <% } %>
+    </ul>
+</script>
+<script>
+    $(document).ready(function() {
+        $.get('experience.json', function(data) {
+            var experience = document.getElementById("experience");
+            experience.innerHTML = tmpl("experience_template", {experience: data});
+        })
     })
 </script>
-<pre id='experience' style='white-space: pre-wrap;'></pre>
+<div id="experience"></div>
+<h2>Reviews:</h2>
+<ul>
+    <li>
+        <h3>Mihail Budilov - project manager in QMStatus</h3>
+        <p>
+            С Андреем работали и продолжаем периодически работать на SaaS-проекте qmstatus.com, где он выполнял роль ведущего фронтенд-программиста, которой не только проявил опыт и скорость решения поставленных задач, но и распределял и обучал второго фронтенд-программиста, тем самым проявил умение в управлении другими специалистами. Стоит отметить высокое качество выполненной работы, умение работать в команде и что не мало важно, всегда находится на связи.
+        </p>
+    </li>
+    <li>
+        <h3>Elizaveta Yanovskaya - project manager in CSSSR</h3>
+        <p>
+        </p>
+    </li>
+</ul>
