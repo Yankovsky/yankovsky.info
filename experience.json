@@ -5,14 +5,14 @@
     "from": "August 2014",
     "to": "current time",
     "position": "Lead front end developer",
-    "description": "big monitoring tool for big companies.",
+    "description": "web-based monitoring tool for cost reduction and increasing product quality",
     "skills": [
       "learned how to build huge Angular.js app",
       "wrote custom build script supporting highly modular system",
-      "charting with Highcharts",
-      "Angular.js app l10n and i18n",
+      "learned charting with Highcharts",
+      "learned Angular.js app l10n and i18n",
       "learned how to find bugs in Angular.js app much faster",
-      "unit testing with Jasmine and Karma"
+      "learned unit testing with Jasmine and Karma"
     ]
   },
   {
@@ -65,10 +65,10 @@
     "position": "Java web developer",
     "description": "time tracking software",
     "skills": [
-      "Java",
-      "SQL",
-      "unit testing",
-      "web stack"
+      "learned Java",
+      "learned SQL",
+      "learned unit testing approach",
+      "learned general web stack"
     ]
   }
 ]
