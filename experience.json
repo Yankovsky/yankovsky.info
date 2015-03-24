@@ -1,7 +1,7 @@
 [
   {
     "company": "QMSTATUS",
-    "website": "http://qmstatus.com/",
+    "website": "http://en.qmstatus.com/",
     "from": "August 2014",
     "to": "current time",
     "position": "Lead front end developer",
@@ -38,7 +38,7 @@
     "position": "Front end developer",
     "description": "imagine www.booking.com mixed with www.hipmunk.com",
     "skills": [
-      "finally switched to frontend development",
+      "switched to frontend development",
       "turned jquery spaghetti to Angular.js structured code",
       "did some Perl programming",
       "learned Coffee, Stylus, Handlebars and others"
