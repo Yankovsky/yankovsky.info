@@ -21,13 +21,26 @@
     "from": "June 2014",
     "to": "November 2014",
     "position": "Angular.js developer and front end consultant",
-    "description": "lead front end outsourcing company in Russia",
+    "description": "fully distributed lead front end outsourcing company in Russia",
     "skills": [
       "shared knowledge about SPA",
       "learned weak sides of Angular.js",
       "learned how to optimize Angular.js",
       "interviewed a lot of people",
       "learned how to interview Angular.js developers"
+    ]
+  },
+  {
+    "company": "Neoclassic.pro",
+    "website": "http://www.neoclassic.pro/",
+    "from": "March 2014",
+    "to": "July 2014",
+    "position": "Full stack javascript developer",
+    "description": "personal website of opera singer Dmitry Yankovsky",
+    "skills": [
+      "wrote simple express server application",
+      "solved SEO problems with SPA using prerender.io",
+      "learned modern web developer tools such as Jade, Stylus, Grunt, CoffeeScript"
     ]
   },
   {
