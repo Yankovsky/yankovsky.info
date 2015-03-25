@@ -7,11 +7,11 @@
     "position": "Lead front end developer",
     "description": "web-based monitoring tool for cost reduction and increasing product quality",
     "skills": [
-      "learned how to build huge Angular.js app",
+      "learned how to build huge AngularJS app",
       "wrote custom build script supporting highly modular system",
       "learned charting with Highcharts",
-      "learned Angular.js app l10n and i18n",
-      "learned how to find bugs in Angular.js app much faster",
+      "learned AngularJS app l10n and i18n",
+      "learned how to find bugs in AngularJS app much faster",
       "learned unit testing with Jasmine and Karma"
     ]
   },
@@ -20,14 +20,14 @@
     "website": "http://www.csssr.ru/",
     "from": "June 2014",
     "to": "November 2014",
-    "position": "Angular.js developer and front end consultant",
+    "position": "AngularJS developer and front end consultant",
     "description": "fully distributed lead front end outsourcing company in Russia",
     "skills": [
       "shared knowledge about SPA",
-      "learned weak sides of Angular.js",
-      "learned how to optimize Angular.js",
+      "learned weak sides of AngularJS",
+      "learned how to optimize AngularJS",
       "interviewed a lot of people",
-      "learned how to interview Angular.js developers"
+      "learned how to interview AngularJS developers"
     ]
   },
   {
@@ -52,7 +52,7 @@
     "description": "imagine www.booking.com mixed with www.hipmunk.com",
     "skills": [
       "switched to front end development",
-      "turned jquery spaghetti to Angular.js structured code",
+      "turned jquery spaghetti to AngularJS structured code",
       "did some Perl programming",
       "learned Coffee, Stylus, Handlebars and others"
     ]
