@@ -7,7 +7,7 @@
     "position": "Lead front end developer",
     "description": "web-based monitoring tool for cost reduction and increasing product quality",
     "skills": [
-      "learned how to build huge AngularJS app",
+      "built huge AngularJS app",
       "wrote custom build script supporting highly modular system",
       "learned charting with Highcharts",
       "learned AngularJS app l10n and i18n",
@@ -25,7 +25,7 @@
     "skills": [
       "shared knowledge about SPA",
       "learned weak sides of AngularJS",
-      "learned how to optimize AngularJS",
+      "optimized AngularJS",
       "interviewed a lot of people",
       "learned how to interview AngularJS developers"
     ]
@@ -38,8 +38,8 @@
     "position": "Full stack javascript developer",
     "description": "personal website of opera singer Dmitry Yankovsky",
     "skills": [
-      "wrote simple express server application",
-      "solved SEO problems with SPA using prerender.io",
+      "wrote simple Node.js server application",
+      "solved SEO problems with prerender.io",
       "learned modern web developer tools such as Jade, Stylus, Grunt, CoffeeScript, Bower"
     ]
   },
@@ -49,12 +49,13 @@
     "from": "June 2013",
     "to": "July 2014",
     "position": "Front end developer",
-    "description": "imagine www.booking.com mixed with www.hipmunk.com",
+    "description": "an online service where you can purchase airline tickets and book hotels",
     "skills": [
       "switched to front end development",
-      "turned jquery spaghetti to AngularJS structured code",
+      "refactor jquery-driven app to AngularJS structured code",
+      "wrote complex AngularJS directives",
       "did some Perl programming",
-      "learned Coffee, Stylus, Handlebars and others"
+      "learned Sass and Handlebars"
     ]
   },
   {
