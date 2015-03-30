@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<input id='inputNumber' type="number" value="700" onchange="onNumberChange()" oninput="onNumberChange()"/>
+<div id='square' style="background: red; border: 5px solid black;">
+</div>
+<script>
+    var inputNumber = document.getElementById('inputNumber')
+    function onNumberChange() {
+        var width = inputNumber.value
+        var squareStyle = document.getElementById('square').style
+        squareStyle.width = width + 'px'
+        squareStyle.height = width + 'px'
+    }
+    onNumberChange()
+    if (window.matchMedia) {
+        var mediaQueryList = window.matchMedia('print')
+        mediaQueryList.addListener(function(mql) {
+            if (mql.matches) {
+                console.log('before', window.innerWidth)
+            } else {
+                console.log('after', window.innerWidth)
+            }
+        })
+    }
+</script>
+
+</body>
+</html>
